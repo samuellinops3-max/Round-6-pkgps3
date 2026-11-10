@@ -41,8 +41,16 @@ jobs:
           open('ICON0.PNG', 'wb').write(png)
           PY
       - name: Compilar
-        run: make
-      - uses: actions/upload-artifact@v4
+        run: |
+          make
+          echo "=== ARQUIVOS ==="
+          ls -lh
+          ls -lh *.pkg || echo "SEM PKG!"
+      - name: Upload PKG
+        uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: round6-batatinha-pkg
-          path: cobra.pkg>
+          path: |
+            *.pkg
+            cobra.pkg
